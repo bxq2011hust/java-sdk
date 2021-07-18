@@ -1,0 +1,569 @@
+/*
+ * Copyright 2014-2020  [fisco-dev]
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ */
+
+package org.fisco.bcos.sdk.client;
+
+import java.math.BigInteger;
+import org.fisco.bcos.sdk.client.protocol.request.Transaction;
+import org.fisco.bcos.sdk.client.protocol.response.*;
+import org.fisco.bcos.sdk.config.ConfigOption;
+import org.fisco.bcos.sdk.crypto.CryptoSuite;
+import org.fisco.bcos.sdk.model.CryptoType;
+import org.fisco.bcos.sdk.model.TransactionReceipt;
+import org.fisco.bcos.sdk.model.callback.TransactionCallback;
+import org.fisco.bcos.sdk.network.Connection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * This is the interface of client module.
+ *
+ * @author Maggie
+ */
+public interface Client {
+    static Logger logger = LoggerFactory.getLogger(Client.class);
+
+    /**
+     * Build a client instance GroupId is identified, all interfaces are available
+     *
+     * @param connection the connection instance
+     * @param groupId the group id
+     * @return a client instance
+     */
+    static Client build(Connection connection, Integer groupId, ConfigOption config) {
+        // get cryptoType
+        //        Integer cryptoType = connection.getCryptoType();
+        Integer cryptoType = CryptoType.ECDSA_TYPE;
+        if (cryptoType == null) {
+            logger.warn(
+                    "build client failed for get crypto type or nodeVersion failed, groupId: {}",
+                    groupId);
+            return null;
+        }
+        CryptoSuite cryptoSuite = new CryptoSuite(cryptoType, config);
+        logger.info("build client success for group {}", groupId);
+        return new ClientImpl(connection, groupId, cryptoSuite);
+    }
+
+    /**
+     * Get group manager serveice
+     *
+     * @return the instance of GroupManagerService
+     */
+    Connection getConnection();
+
+    /**
+     * Get CryptoSuite
+     *
+     * @return the CryptoSuite
+     */
+    CryptoSuite getCryptoSuite();
+
+    /**
+     * Get connected ClientNodeVersion
+     *
+     * @return the NodeVersion of the connected node
+     */
+    NodeInfo.NodeInformation getNodeInfo();
+
+    /**
+     * Get crypto type
+     *
+     * @return the CryptoType, e.g. ECDSA_TYPE
+     */
+    Integer getCryptoType();
+
+    /**
+     * get groupId of the client
+     *
+     * @return the groupId
+     */
+    Integer getGroupId();
+
+    /**
+     * Ledger operation: send transaction
+     *
+     * @param signedTransactionData transaction string
+     * @return SendTransaction
+     */
+    SendTransaction sendRawTransaction(String signedTransactionData);
+
+    /**
+     * Ledger operation: async send transaction
+     *
+     * @param signedTransactionData transaction string
+     * @param callback the callback that will be called when receive the response
+     */
+    void sendRawTransactionAsync(
+            String signedTransactionData, RespCallback<SendTransaction> callback);
+
+    /**
+     * Ledger operation: send raw transaction and get proof
+     *
+     * @param signedTransactionData transaction string
+     * @return a SendTransaction instance
+     */
+    SendTransaction sendRawTransactionAndGetProof(String signedTransactionData);
+
+    /**
+     * Ledger operation: async send transaction and get proof
+     *
+     * @param signedTransactionData transaction string
+     * @param callback the callback that will be called when receive the response
+     */
+    void sendRawTransactionAndGetProofAsync(
+            String signedTransactionData, RespCallback<SendTransaction> callback);
+
+    /**
+     * send transaction and get the receipt as the response
+     *
+     * @param signedTransactionData the transaction data sent to the node
+     * @return the transaction receipt
+     */
+    TransactionReceipt sendRawTransactionAndGetReceipt(String signedTransactionData);
+
+    /**
+     * send transaction to the node, and calls TransactionCallback when get the transaction receipt
+     * response
+     *
+     * @param signedTransactionData the transaction sent to the node
+     * @param callback the TransactionCallback called after get the transaction receipt
+     */
+    void sendRawTransactionAndGetReceiptAsync(
+            String signedTransactionData, TransactionCallback callback);
+
+    /**
+     * calls sendRawTransactionAndGetProof interface and get the transaction receipt
+     *
+     * @param signedTransactionData the transaction sent to the node
+     * @return the transaction receipt
+     */
+    TransactionReceipt sendRawTransactionAndGetReceiptWithProof(String signedTransactionData);
+
+    /**
+     * calls sendRawTransactionAndGetProof interface, calls TransactionCallback when get the
+     * transaction receipt
+     *
+     * @param signedTransactionData the transaction sent to the node
+     * @param callback the TransactionCallback called after get the transaction receipt
+     */
+    void sendRawTransactionAndGetReceiptWithProofAsync(
+            String signedTransactionData, TransactionCallback callback);
+
+    /**
+     * Ledger operation: call contract functions without sending transaction
+     *
+     * @param transaction transaction instance
+     * @return Call
+     */
+    Call call(Transaction transaction);
+
+    /**
+     * Ledger operation: async call contract functions without sending transaction
+     *
+     * @param transaction transaction instance
+     * @param callback the callback that will be called when receive the response
+     */
+    void callAsync(Transaction transaction, RespCallback<Call> callback);
+
+    /**
+     * Ledger operation: get block number
+     *
+     * @return block number
+     */
+    BlockNumber getBlockNumber();
+
+    /**
+     * Ledger operation: async get block number
+     *
+     * @param callback the callback that will be called when receive the response
+     */
+    void getBlockNumberAsync(RespCallback<BlockNumber> callback);
+
+    /**
+     * Ledger operation: get code
+     *
+     * @param address the address string
+     * @return a code instance
+     */
+    Code getCode(String address);
+
+    /**
+     * Ledger operation: async get code
+     *
+     * @param address the address string
+     * @param callback the callback that will be called when receive the response
+     */
+    void getCodeAsync(String address, RespCallback<Code> callback);
+
+    /**
+     * Ledger operation: get total transaction coun
+     *
+     * @return TotalTransactionCount
+     */
+    TotalTransactionCount getTotalTransactionCount();
+
+    /**
+     * Ledger operation: async get total transaction count
+     *
+     * @param callback the callback that will be called when receive the response
+     */
+    void getTotalTransactionCountAsync(RespCallback<TotalTransactionCount> callback);
+
+    /**
+     * Ledger operation: get block by hash
+     *
+     * @param blockHash the hashcode of the block
+     * @param returnFullTransactionObjects the boolean define the tx is full or not
+     * @return a block
+     */
+    BcosBlock getBlockByHash(String blockHash, boolean returnFullTransactionObjects);
+
+    /**
+     * Ledger operation: async get block by hash
+     *
+     * @param blockHash the hashcode of the block
+     * @param returnFullTransactionObjects the boolean define the tx is full or not
+     * @param callback the callback that will be called when receive the response
+     */
+    void getBlockByHashAsync(
+            String blockHash,
+            boolean returnFullTransactionObjects,
+            RespCallback<BcosBlock> callback);
+
+    /**
+     * Ledger operation: get block by block number
+     *
+     * @param blockNumber the number of the block
+     * @param returnFullTransactionObjects the boolean define the tx is full or not
+     * @return block
+     */
+    BcosBlock getBlockByNumber(BigInteger blockNumber, boolean returnFullTransactionObjects);
+
+    /**
+     * Ledger operation: async get block by block number
+     *
+     * @param blockNumber the number of the block
+     * @param returnFullTransactionObjects the boolean define the tx is full or not
+     * @param callback the callback that will be called when receive the response
+     */
+    void getBlockByNumberAsync(
+            BigInteger blockNumber,
+            boolean returnFullTransactionObjects,
+            RespCallback<BcosBlock> callback);
+
+    /**
+     * Ledger operation: get block hash by block number
+     *
+     * @param blockNumber the number of the block
+     * @return block hash
+     */
+    BlockHash getBlockHashByNumber(BigInteger blockNumber);
+
+    /**
+     * Ledger operation: async get block hash by block number
+     *
+     * @param blockNumber the number of the block
+     * @param callback the callback that will be called when receive the response
+     */
+    void getBlockHashByNumberAsync(BigInteger blockNumber, RespCallback<BlockHash> callback);
+
+    /**
+     * Ledger operation: get block header by block hash
+     *
+     * @param blockHash the hashcode of the block
+     * @param returnSignatureList the boolean define the signature list is returned or not
+     * @return block header
+     */
+    BcosBlockHeader getBlockHeaderByHash(String blockHash, boolean returnSignatureList);
+
+    /**
+     * Ledger operation: async get block header by block hash
+     *
+     * @param blockHash the hashcode of the block
+     * @param returnSignatureList the boolean define the signature list is returned or not
+     * @param callback the call back instance
+     */
+    void getBlockHeaderByHashAsync(
+            String blockHash, boolean returnSignatureList, RespCallback<BcosBlockHeader> callback);
+
+    /**
+     * get block header by number
+     *
+     * @param blockNumber the number of the block
+     * @param returnSignatureList the boolean define the signature list is returned or not
+     * @return the block header response from the blockchain node
+     */
+    BcosBlockHeader getBlockHeaderByNumber(BigInteger blockNumber, boolean returnSignatureList);
+
+    void getBlockHeaderByNumberAsync(
+            BigInteger blockNumber,
+            boolean returnSignatureList,
+            RespCallback<BcosBlockHeader> callback);
+
+    /**
+     * Ledger operation: get trnasaction by hash
+     *
+     * @param transactionHash the hashcode of transaction
+     * @return transaction
+     */
+    BcosTransaction getTransactionByHash(String transactionHash);
+
+    /**
+     * Ledger operation: async get trnasaction by hash
+     *
+     * @param transactionHash the hashcode of transaction
+     * @param callback the callback that will be called when receive the response
+     */
+    void getTransactionByHashAsync(String transactionHash, RespCallback<BcosTransaction> callback);
+
+    /**
+     * Ledger operation: get transaction and proof by hash
+     *
+     * @param transactionHash the hashcode of transaction
+     * @return transaction with proof
+     */
+    TransactionWithProof getTransactionByHashWithProof(String transactionHash);
+
+    /**
+     * Ledger operation: async get transaction and proof by hash
+     *
+     * @param transactionHash the hashcode of transaction
+     * @param callback the callback that will be called when receive the response
+     */
+    void getTransactionByHashWithProofAsync(
+            String transactionHash, RespCallback<TransactionWithProof> callback);
+
+    /**
+     * Ledger operation: get transaction by block number and index
+     *
+     * @param blockNumber the number of block
+     * @param transactionIndex the index of transaction
+     * @return transaction
+     */
+    BcosTransaction getTransactionByBlockNumberAndIndex(
+            BigInteger blockNumber, BigInteger transactionIndex);
+
+    /**
+     * Ledger operation: async get transaction by block number and index
+     *
+     * @param blockNumber the number of block
+     * @param transactionIndex the index of transaction
+     * @param callback the callback that will be called when receive the response
+     */
+    void getTransactionByBlockNumberAndIndexAsync(
+            BigInteger blockNumber,
+            BigInteger transactionIndex,
+            RespCallback<BcosTransaction> callback);
+
+    BcosTransaction getTransactionByBlockHashAndIndex(
+            String blockHash, BigInteger transactionIndex);
+
+    void getTransactionByBlockHashAndIndexAsync(
+            String blockHash, BigInteger transactionIndex, RespCallback<BcosTransaction> callback);
+
+    /**
+     * Ledger operation: get transaction receipt by transaction hash
+     *
+     * @param transactionHash the hashcode of transaction
+     * @return transaction receipt
+     */
+    BcosTransactionReceipt getTransactionReceipt(String transactionHash);
+
+    /**
+     * Ledger operation: async get transaction receipt by transaction hash
+     *
+     * @param transactionHash the hashcode of transaction
+     * @param callback the callback that will be called when receive the response
+     */
+    void getTransactionReceiptAsync(
+            String transactionHash, RespCallback<BcosTransactionReceipt> callback);
+
+    /**
+     * Ledger operation: get transaction receipt and proof by transaction hash
+     *
+     * @param transactionHash the hashcode of transaction
+     * @return receipt and proof
+     */
+    TransactionReceiptWithProof getTransactionReceiptByHashWithProof(String transactionHash);
+
+    /**
+     * Ledger operation: async get transaction receipt and proof by transaction hash
+     *
+     * @param transactionHash the hashcode of transaction
+     * @param callback the callback that will be called when receive the response
+     */
+    void getTransactionReceiptByHashWithProofAsync(
+            String transactionHash, RespCallback<TransactionReceiptWithProof> callback);
+
+    /**
+     * Ledger operation: get pending transactions in transaction pool
+     *
+     * @return pending transactions
+     */
+    PendingTransactions getPendingTransaction();
+
+    /**
+     * Ledger operation: async get pending transactions in transaction pool
+     *
+     * @param callback the callback that will be called when receive the response
+     */
+    void getPendingTransactionAsync(RespCallback<PendingTransactions> callback);
+
+    /**
+     * Ledger operation: get pending transaction size
+     *
+     * @return PendingTxSize
+     */
+    PendingTxSize getPendingTxSize();
+
+    /**
+     * Ledger operation: async get pending transaction size
+     *
+     * @param callback the callback that will be called when receive the response
+     */
+    void getPendingTxSizeAsync(RespCallback<PendingTxSize> callback);
+
+    /**
+     * Get cached block height
+     *
+     * @return block number
+     */
+    BigInteger getBlockLimit();
+
+    /**
+     * Peer operation: get connected peers
+     *
+     * @return peers
+     */
+    Peers getPeers();
+
+    /**
+     * Peer operation: async get connected peers
+     *
+     * @param callback the callback instance
+     */
+    void getPeersAsync(RespCallback<Peers> callback);
+
+    /**
+     * Peer operation: get observer node list
+     *
+     * @return observer node list
+     */
+    ObserverList getObserverList();
+
+    /**
+     * Peer operation: async get observer node list
+     *
+     * @param callback the callback instance
+     */
+    void getObserverList(RespCallback<ObserverList> callback);
+
+    /**
+     * Peer operation: get sealer node list
+     *
+     * @return sealer node list
+     */
+    SealerList getSealerList();
+
+    /**
+     * Peer operation: async get sealer node list
+     *
+     * @param callback the callback instance
+     */
+    void getSealerListAsync(RespCallback<SealerList> callback);
+
+    /**
+     * Peer operation: get pbft view
+     *
+     * @return pbft view
+     */
+    PbftView getPbftView();
+
+    /**
+     * Peer operation: async get pbft view
+     *
+     * @param callback the callback instance
+     */
+    void getPbftViewAsync(RespCallback<PbftView> callback);
+
+    /**
+     * get receipt list according to the block number and the given range
+     *
+     * @param blockNumber the block number of the receipts
+     * @param from the start index of the receipt list required
+     * @param count the end index of the receipt list required
+     * @return the receipt list
+     */
+    BcosTransactionReceiptsDecoder getBatchReceiptsByBlockNumberAndRange(
+            BigInteger blockNumber, String from, String count);
+
+    /**
+     * get receipt list according to the block hash and the given range
+     *
+     * @param blockHash the block hash of the receipts
+     * @param from the start index of the receipt list required
+     * @param count the end index of the receipt list required
+     * @return the receipt list
+     */
+    BcosTransactionReceiptsDecoder getBatchReceiptsByBlockHashAndRange(
+            String blockHash, String from, String count);
+
+    /**
+     * Peer operation: get consensus status
+     *
+     * @return consensus status
+     */
+    ConsensusStatus getConsensusStatus();
+
+    /**
+     * Peer operation: async get consensus status
+     *
+     * @param callback the callback instance
+     */
+    void getConsensusStates(RespCallback<ConsensusStatus> callback);
+
+    /**
+     * Peer operation: get system config
+     *
+     * @param key the string of key
+     * @return system config
+     */
+    SystemConfig getSystemConfigByKey(String key);
+
+    /**
+     * Peer operation: async get system config
+     *
+     * @param key the string of key
+     * @param callback the callback instance
+     */
+    void getSystemConfigByKeyAsync(String key, RespCallback<SystemConfig> callback);
+
+    /**
+     * Peer operation: get sync status
+     *
+     * @return sync status
+     */
+    SyncStatus getSyncStatus();
+
+    /**
+     * Peer operation: async get sync status
+     *
+     * @param callback the callback instance
+     */
+    void getSyncStatus(RespCallback<SyncStatus> callback);
+
+    void stop();
+}
