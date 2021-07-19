@@ -29,8 +29,8 @@ public interface Connection {
      * Send a message to a node in the group and select the node with the highest block height in
      * the group
      *
-     * @param message The message to be sent
+     * @param request The request to be sent
      * @param callback callback to be called after receiving response
      */
-    void asyncCallMethod(Message message, ResponseCallback callback) throws IOException;
+    void asyncCallMethod(String request, ResponseCallback callback) throws IOException;
 }

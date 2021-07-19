@@ -54,8 +54,8 @@ public class HttpConnection implements Connection {
         }
     }
 
-    public void asyncCallMethod(Message message, ResponseCallback callback) throws IOException {
-        String response = this.callMethod(Arrays.toString(message.getData()));
+    public void asyncCallMethod(String request, ResponseCallback callback) throws IOException {
+        String response = this.callMethod(request);
         Response resp = new Response();
         resp.setContent(response);
         callback.onResponse(resp);

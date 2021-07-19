@@ -55,19 +55,5 @@ public class BcosSDKTest {
     // get pbftView
     client.getPbftView();
 
-    try {
-      // test calculateHash interface for the transaction response
-      BcosTransaction transaction =
-          client.getTransactionByBlockNumberAndIndex(blockNumber.getBlockNumber(), BigInteger.ZERO);
-      if (transaction.getTransaction().get() != null) {
-        System.out.println("### transactionHash:" + transaction.getTransaction().get().getHash());
-        System.out.println(
-            "### calculated transactionHash:"
-                + transaction.getTransaction().get().calculateHash(client.getCryptoSuite()));
-      }
-
-    } catch (ClientException e) {
-      System.out.println("testClient exception, error info: " + e.getMessage());
-    }
   }
 }

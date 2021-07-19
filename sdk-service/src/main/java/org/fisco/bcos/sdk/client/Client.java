@@ -98,7 +98,7 @@ public interface Client {
      * @param signedTransactionData transaction string
      * @return SendTransaction
      */
-    SendTransaction sendRawTransaction(String signedTransactionData);
+    TransactionReceiptWithProof sendRawTransaction(String signedTransactionData, boolean withProof);
 
     /**
      * Ledger operation: async send transaction
@@ -107,60 +107,7 @@ public interface Client {
      * @param callback the callback that will be called when receive the response
      */
     void sendRawTransactionAsync(
-            String signedTransactionData, RespCallback<SendTransaction> callback);
-
-    /**
-     * Ledger operation: send raw transaction and get proof
-     *
-     * @param signedTransactionData transaction string
-     * @return a SendTransaction instance
-     */
-    SendTransaction sendRawTransactionAndGetProof(String signedTransactionData);
-
-    /**
-     * Ledger operation: async send transaction and get proof
-     *
-     * @param signedTransactionData transaction string
-     * @param callback the callback that will be called when receive the response
-     */
-    void sendRawTransactionAndGetProofAsync(
-            String signedTransactionData, RespCallback<SendTransaction> callback);
-
-    /**
-     * send transaction and get the receipt as the response
-     *
-     * @param signedTransactionData the transaction data sent to the node
-     * @return the transaction receipt
-     */
-    TransactionReceipt sendRawTransactionAndGetReceipt(String signedTransactionData);
-
-    /**
-     * send transaction to the node, and calls TransactionCallback when get the transaction receipt
-     * response
-     *
-     * @param signedTransactionData the transaction sent to the node
-     * @param callback the TransactionCallback called after get the transaction receipt
-     */
-    void sendRawTransactionAndGetReceiptAsync(
-            String signedTransactionData, TransactionCallback callback);
-
-    /**
-     * calls sendRawTransactionAndGetProof interface and get the transaction receipt
-     *
-     * @param signedTransactionData the transaction sent to the node
-     * @return the transaction receipt
-     */
-    TransactionReceipt sendRawTransactionAndGetReceiptWithProof(String signedTransactionData);
-
-    /**
-     * calls sendRawTransactionAndGetProof interface, calls TransactionCallback when get the
-     * transaction receipt
-     *
-     * @param signedTransactionData the transaction sent to the node
-     * @param callback the TransactionCallback called after get the transaction receipt
-     */
-    void sendRawTransactionAndGetReceiptWithProofAsync(
-            String signedTransactionData, TransactionCallback callback);
+            String signedTransactionData, boolean withProof, TransactionCallback callback);
 
     /**
      * Ledger operation: call contract functions without sending transaction
@@ -330,51 +277,6 @@ public interface Client {
     void getTransactionByHashAsync(String transactionHash, RespCallback<BcosTransaction> callback);
 
     /**
-     * Ledger operation: get transaction and proof by hash
-     *
-     * @param transactionHash the hashcode of transaction
-     * @return transaction with proof
-     */
-    TransactionWithProof getTransactionByHashWithProof(String transactionHash);
-
-    /**
-     * Ledger operation: async get transaction and proof by hash
-     *
-     * @param transactionHash the hashcode of transaction
-     * @param callback the callback that will be called when receive the response
-     */
-    void getTransactionByHashWithProofAsync(
-            String transactionHash, RespCallback<TransactionWithProof> callback);
-
-    /**
-     * Ledger operation: get transaction by block number and index
-     *
-     * @param blockNumber the number of block
-     * @param transactionIndex the index of transaction
-     * @return transaction
-     */
-    BcosTransaction getTransactionByBlockNumberAndIndex(
-            BigInteger blockNumber, BigInteger transactionIndex);
-
-    /**
-     * Ledger operation: async get transaction by block number and index
-     *
-     * @param blockNumber the number of block
-     * @param transactionIndex the index of transaction
-     * @param callback the callback that will be called when receive the response
-     */
-    void getTransactionByBlockNumberAndIndexAsync(
-            BigInteger blockNumber,
-            BigInteger transactionIndex,
-            RespCallback<BcosTransaction> callback);
-
-    BcosTransaction getTransactionByBlockHashAndIndex(
-            String blockHash, BigInteger transactionIndex);
-
-    void getTransactionByBlockHashAndIndexAsync(
-            String blockHash, BigInteger transactionIndex, RespCallback<BcosTransaction> callback);
-
-    /**
      * Ledger operation: get transaction receipt by transaction hash
      *
      * @param transactionHash the hashcode of transaction
@@ -390,37 +292,6 @@ public interface Client {
      */
     void getTransactionReceiptAsync(
             String transactionHash, RespCallback<BcosTransactionReceipt> callback);
-
-    /**
-     * Ledger operation: get transaction receipt and proof by transaction hash
-     *
-     * @param transactionHash the hashcode of transaction
-     * @return receipt and proof
-     */
-    TransactionReceiptWithProof getTransactionReceiptByHashWithProof(String transactionHash);
-
-    /**
-     * Ledger operation: async get transaction receipt and proof by transaction hash
-     *
-     * @param transactionHash the hashcode of transaction
-     * @param callback the callback that will be called when receive the response
-     */
-    void getTransactionReceiptByHashWithProofAsync(
-            String transactionHash, RespCallback<TransactionReceiptWithProof> callback);
-
-    /**
-     * Ledger operation: get pending transactions in transaction pool
-     *
-     * @return pending transactions
-     */
-    PendingTransactions getPendingTransaction();
-
-    /**
-     * Ledger operation: async get pending transactions in transaction pool
-     *
-     * @param callback the callback that will be called when receive the response
-     */
-    void getPendingTransactionAsync(RespCallback<PendingTransactions> callback);
 
     /**
      * Ledger operation: get pending transaction size
@@ -498,42 +369,6 @@ public interface Client {
      * @param callback the callback instance
      */
     void getPbftViewAsync(RespCallback<PbftView> callback);
-
-    /**
-     * get receipt list according to the block number and the given range
-     *
-     * @param blockNumber the block number of the receipts
-     * @param from the start index of the receipt list required
-     * @param count the end index of the receipt list required
-     * @return the receipt list
-     */
-    BcosTransactionReceiptsDecoder getBatchReceiptsByBlockNumberAndRange(
-            BigInteger blockNumber, String from, String count);
-
-    /**
-     * get receipt list according to the block hash and the given range
-     *
-     * @param blockHash the block hash of the receipts
-     * @param from the start index of the receipt list required
-     * @param count the end index of the receipt list required
-     * @return the receipt list
-     */
-    BcosTransactionReceiptsDecoder getBatchReceiptsByBlockHashAndRange(
-            String blockHash, String from, String count);
-
-    /**
-     * Peer operation: get consensus status
-     *
-     * @return consensus status
-     */
-    ConsensusStatus getConsensusStatus();
-
-    /**
-     * Peer operation: async get consensus status
-     *
-     * @param callback the callback instance
-     */
-    void getConsensusStates(RespCallback<ConsensusStatus> callback);
 
     /**
      * Peer operation: get system config
