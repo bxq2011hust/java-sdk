@@ -1,5 +1,6 @@
 package org.fisco.bcos.sdk.network;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -40,13 +41,11 @@ public class HttpConnection implements Connection {
 
     public String callMethod(String request) throws IOException {
         try (final CloseableHttpClient httpclient = HttpClients.createDefault()) {
-            final HttpPost httppost = new HttpPost(url);
-
-            final File file = new File(request);
+            final HttpPost httppost = new HttpPost("http://" + url);
 
             final InputStreamEntity reqEntity =
                     new InputStreamEntity(
-                            new FileInputStream(file), -1, ContentType.APPLICATION_JSON);
+                            new ByteArrayInputStream(request.getBytes()), -1, ContentType.APPLICATION_JSON);
             httppost.setEntity(reqEntity);
             System.out.println("Executing request: " + request);
             try (final CloseableHttpResponse response = httpclient.execute(httppost)) {

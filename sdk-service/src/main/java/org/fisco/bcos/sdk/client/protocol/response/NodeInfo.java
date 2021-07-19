@@ -1,7 +1,7 @@
 package org.fisco.bcos.sdk.client.protocol.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
+
 import java.util.Objects;
 import org.fisco.bcos.sdk.model.JsonRpcResponse;
 
@@ -14,38 +14,29 @@ public class NodeInfo extends JsonRpcResponse<NodeInfo.NodeInformation> {
         @JsonProperty("NodeID")
         private String nodeID;
 
-        @JsonProperty("IPAndPort")
-        private String ipAndPort;
-
         @JsonProperty("Agency")
         private String agency;
 
-        @JsonProperty("Node")
-        private String node;
-
-        @JsonProperty("Topic")
-        private List<String> topic;
-
-        @JsonProperty("FISCO-BCOS Version")
+        @JsonProperty("Version")
         private String version;
 
-        @JsonProperty("Supported Version")
+        @JsonProperty("SupportedVersion")
         private String supportedVersion;
 
-        @JsonProperty("Chain Id")
+        @JsonProperty("ChainId")
         private String chainId;
 
-        @JsonProperty("Build Time")
+        @JsonProperty("BuildTime")
         private String buildTime;
 
-        @JsonProperty("Build Type")
+        @JsonProperty("BuildType")
         private String buildType;
 
-        @JsonProperty("Git Branch")
+        @JsonProperty("GitBranch")
         private String gitBranch;
 
-        @JsonProperty("Git Commit Hash")
-        private String gitCommitHash;
+        @JsonProperty("GitCommit")
+        private String gitCommit;
 
         public String getNodeID() {
             return nodeID;
@@ -55,36 +46,12 @@ public class NodeInfo extends JsonRpcResponse<NodeInfo.NodeInformation> {
             this.nodeID = nodeID;
         }
 
-        public String getIpAndPort() {
-            return ipAndPort;
-        }
-
-        public void setIpAndPort(String ipAndPort) {
-            this.ipAndPort = ipAndPort;
-        }
-
         public String getAgency() {
             return agency;
         }
 
         public void setAgency(String agency) {
             this.agency = agency;
-        }
-
-        public String getNode() {
-            return node;
-        }
-
-        public void setNode(String node) {
-            this.node = node;
-        }
-
-        public List<String> getTopic() {
-            return topic;
-        }
-
-        public void setTopic(List<String> topic) {
-            this.topic = topic;
         }
 
         public String getVersion() {
@@ -135,12 +102,12 @@ public class NodeInfo extends JsonRpcResponse<NodeInfo.NodeInformation> {
             this.gitBranch = gitBranch;
         }
 
-        public String getGitCommitHash() {
-            return gitCommitHash;
+        public String getGitCommit() {
+            return gitCommit;
         }
 
-        public void setGitCommitHash(String gitCommitHash) {
-            this.gitCommitHash = gitCommitHash;
+        public void setGitCommit(String gitCommit) {
+            this.gitCommit = gitCommit;
         }
 
         @Override
@@ -149,34 +116,28 @@ public class NodeInfo extends JsonRpcResponse<NodeInfo.NodeInformation> {
             if (o == null || getClass() != o.getClass()) return false;
             NodeInformation that = (NodeInformation) o;
             return Objects.equals(nodeID, that.nodeID)
-                    && Objects.equals(node, that.node)
                     && Objects.equals(agency, that.agency)
-                    && Objects.equals(ipAndPort, that.ipAndPort)
-                    && Objects.equals(topic, that.topic)
                     && Objects.equals(version, that.version)
                     && Objects.equals(supportedVersion, that.supportedVersion)
                     && Objects.equals(chainId, that.chainId)
                     && Objects.equals(buildTime, that.buildTime)
                     && Objects.equals(buildType, that.buildType)
                     && Objects.equals(gitBranch, that.gitBranch)
-                    && Objects.equals(gitCommitHash, that.gitCommitHash);
+                    && Objects.equals(gitCommit, that.gitCommit);
         }
 
         @Override
         public int hashCode() {
             return Objects.hash(
-                    node,
                     nodeID,
                     agency,
-                    ipAndPort,
-                    topic,
                     version,
                     supportedVersion,
                     chainId,
                     buildTime,
                     buildType,
                     gitBranch,
-                    gitCommitHash);
+                    gitCommit);
         }
 
         @Override
@@ -185,17 +146,8 @@ public class NodeInfo extends JsonRpcResponse<NodeInfo.NodeInformation> {
                     + "nodeId='"
                     + nodeID
                     + '\''
-                    + ", iPAndPort='"
-                    + ipAndPort
-                    + '\''
-                    + ", node='"
-                    + node
-                    + '\''
                     + ", agency='"
                     + agency
-                    + '\''
-                    + ", topic='"
-                    + topic
                     + '\''
                     + ", version='"
                     + version
@@ -215,8 +167,8 @@ public class NodeInfo extends JsonRpcResponse<NodeInfo.NodeInformation> {
                     + ", gitBranch='"
                     + gitBranch
                     + '\''
-                    + ", gitCommitHash='"
-                    + gitCommitHash
+                    + ", gitCommit='"
+                    + gitCommit
                     + '\''
                     + '}';
         }

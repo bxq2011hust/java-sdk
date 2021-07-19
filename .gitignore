@@ -3,6 +3,7 @@
 log/
 build/
 dist/
+bin/
 .settings/**
 java-sdk.iml
 

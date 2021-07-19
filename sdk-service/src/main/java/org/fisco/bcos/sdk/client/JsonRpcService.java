@@ -54,10 +54,9 @@ public class JsonRpcService {
 
   public <T extends JsonRpcResponse> T sendRequestToGroup(
       JsonRpcRequest request, MsgType messageType, Class<T> responseType) {
-    Response response = null;
+    String response = null;
     try {
-      String responseString = this.connection.callMethod(objectMapper.writeValueAsString(request));
-      response = objectMapper.readValue(responseString, Response.class);
+      response = this.connection.callMethod(objectMapper.writeValueAsString(request));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -91,7 +90,7 @@ public class JsonRpcService {
               try {
                 // decode the transaction
                 T jsonRpcResponse =
-                    parseResponseIntoJsonRpcResponse(request, response, responseType);
+                    parseResponseIntoJsonRpcResponse(request, response.getContent(), responseType);
                 callback.onResponse(jsonRpcResponse);
               } catch (ClientException e) {
                 callback.onError(response);
@@ -116,7 +115,7 @@ public class JsonRpcService {
             public void onResponse(Response response) {
               try {
                 // decode the transaction
-                parseResponseIntoJsonRpcResponse(request, response, responseType);
+                parseResponseIntoJsonRpcResponse(request, response.getContent(), responseType);
                 // FIXME: call callback
               } catch (ClientException e) {
                 // fake the transactionReceipt
@@ -130,17 +129,15 @@ public class JsonRpcService {
   }
 
   protected <T extends JsonRpcResponse> T parseResponseIntoJsonRpcResponse(
-      JsonRpcRequest request, Response response, Class<T> responseType) {
+      JsonRpcRequest request, String response, Class<T> responseType) {
     try {
-      if (response.getErrorCode() == 0) {
         // parse the response into JsonRPCResponse
-        T jsonRpcResponse = objectMapper.readValue(response.getContent(), responseType);
+        T jsonRpcResponse = objectMapper.readValue(response, responseType);
         if (jsonRpcResponse.getError() != null) {
           logger.error(
-              "parseResponseIntoJsonRpcResponse failed for non-empty error message, method: {}, group: {}, seq: {}, retErrorMessage: {}, retErrorCode: {}",
+              "parseResponseIntoJsonRpcResponse failed for non-empty error message, method: {}, group: {},  retErrorMessage: {}, retErrorCode: {}",
               request.getMethod(),
               this.groupId,
-              response.getMessageID(),
               jsonRpcResponse.getError().getMessage(),
               jsonRpcResponse.getError().getCode());
           throw new ClientException(
@@ -150,28 +147,11 @@ public class JsonRpcService {
                   + request.getMethod()
                   + " ,group: "
                   + this.groupId
-                  + " ,seq:"
-                  + response.getMessageID()
                   + ",retErrorMessage: "
                   + jsonRpcResponse.getError().getMessage());
         }
         return jsonRpcResponse;
-      } else {
-        logger.error(
-            "parseResponseIntoJsonRpcResponse failed, method: {}, group: {}, seq: {}, retErrorMessage: {}, retErrorCode: {}",
-            request.getMethod(),
-            this.groupId,
-            response.getMessageID(),
-            response.getErrorMessage(),
-            response.getErrorCode());
-        throw new ClientException(
-            response.getErrorCode(),
-            response.getErrorMessage(),
-            "get response failed, errorCode:"
-                + response.getErrorCode()
-                + ", error message:"
-                + response.getErrorMessage());
-      }
+
 
     } catch (JsonProcessingException e) {
       logger.error(
