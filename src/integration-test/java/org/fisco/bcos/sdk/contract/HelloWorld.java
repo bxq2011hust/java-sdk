@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import org.fisco.bcos.sdk.abi.FunctionReturnDecoder;
 import org.fisco.bcos.sdk.abi.TypeReference;
-import org.fisco.bcos.sdk.abi.datatypes.Function;
-import org.fisco.bcos.sdk.abi.datatypes.Type;
-import org.fisco.bcos.sdk.abi.datatypes.Utf8String;
-import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple1;
+import org.fisco.bcos.sdk.codec.datatypes.Function;
+import org.fisco.bcos.sdk.codec.datatypes.Type;
+import org.fisco.bcos.sdk.codec.datatypes.Utf8String;
+import org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated.Tuple1;
 import org.fisco.bcos.sdk.client.Client;
 import org.fisco.bcos.sdk.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.crypto.keypair.CryptoKeyPair;
@@ -52,7 +52,7 @@ public class HelloWorld extends Contract {
         final Function function =
                 new Function(
                         FUNC_SET,
-                        Arrays.<Type>asList(new org.fisco.bcos.sdk.abi.datatypes.Utf8String(n)),
+                        Arrays.<Type>asList(new org.fisco.bcos.sdk.codec.datatypes.Utf8String(n)),
                         Collections.<TypeReference<?>>emptyList());
         return this.executeTransaction(function);
     }
@@ -61,7 +61,7 @@ public class HelloWorld extends Contract {
         final Function function =
                 new Function(
                         FUNC_SET,
-                        Arrays.<Type>asList(new org.fisco.bcos.sdk.abi.datatypes.Utf8String(n)),
+                        Arrays.<Type>asList(new org.fisco.bcos.sdk.codec.datatypes.Utf8String(n)),
                         Collections.<TypeReference<?>>emptyList());
         this.asyncExecuteTransaction(function, callback);
     }
@@ -70,7 +70,7 @@ public class HelloWorld extends Contract {
         final Function function =
                 new Function(
                         FUNC_SET,
-                        Arrays.<Type>asList(new org.fisco.bcos.sdk.abi.datatypes.Utf8String(n)),
+                        Arrays.<Type>asList(new org.fisco.bcos.sdk.codec.datatypes.Utf8String(n)),
                         Collections.<TypeReference<?>>emptyList());
         return this.createSignedTransaction(function);
     }

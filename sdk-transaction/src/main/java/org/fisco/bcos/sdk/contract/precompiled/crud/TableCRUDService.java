@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple2;
+import org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated.Tuple2;
 import org.fisco.bcos.sdk.channel.model.ChannelPrococolExceiption;
 import org.fisco.bcos.sdk.channel.model.EnumNodeVersion;
 import org.fisco.bcos.sdk.client.Client;

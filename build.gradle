@@ -153,6 +153,7 @@ sourceSets {
             srcDir "sdk-service/src/main/java"
             srcDir "sdk-transaction/src/main/java"
             srcDir "sdk-codegen/src/main/java"
+            srcDir "sdk-codec/src/main/java"
         }
         buildscript
         resources {

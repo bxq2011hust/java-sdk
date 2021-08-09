@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 import org.fisco.bcos.sdk.abi.wrapper.*;
+import org.fisco.bcos.sdk.codec.Constant;
 import org.fisco.bcos.sdk.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.model.ConstantConfig;
 import org.fisco.bcos.sdk.model.EventLog;

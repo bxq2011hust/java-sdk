@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+    id 'java-library'
+}
+
+dependencies {
+    api project(':sdk-crypto')
+    api project(':sdk-core')
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}

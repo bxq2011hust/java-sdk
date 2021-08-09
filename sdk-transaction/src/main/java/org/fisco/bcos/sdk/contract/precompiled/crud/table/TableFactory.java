@@ -5,15 +5,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.fisco.bcos.sdk.abi.FunctionReturnDecoder;
-import org.fisco.bcos.sdk.abi.TypeReference;
-import org.fisco.bcos.sdk.abi.datatypes.Address;
-import org.fisco.bcos.sdk.abi.datatypes.Function;
-import org.fisco.bcos.sdk.abi.datatypes.Type;
-import org.fisco.bcos.sdk.abi.datatypes.Utf8String;
-import org.fisco.bcos.sdk.abi.datatypes.generated.Int256;
-import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple1;
-import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple3;
 import org.fisco.bcos.sdk.client.Client;
+import org.fisco.bcos.sdk.codec.datatypes.*;
+import org.fisco.bcos.sdk.codec.datatypes.generated.Int256;
+import org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated.Tuple1;
+import org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated.Tuple3;
 import org.fisco.bcos.sdk.contract.Contract;
 import org.fisco.bcos.sdk.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.crypto.keypair.CryptoKeyPair;
@@ -57,9 +53,9 @@ public class TableFactory extends Contract {
                 new Function(
                         FUNC_CREATETABLE,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param0),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param1),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param2)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(param0),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(param1),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(param2)),
                         Collections.<TypeReference<?>>emptyList());
         return executeTransaction(function);
     }
@@ -70,9 +66,9 @@ public class TableFactory extends Contract {
                 new Function(
                         FUNC_CREATETABLE,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param0),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param1),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param2)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(param0),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(param1),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(param2)),
                         Collections.<TypeReference<?>>emptyList());
         asyncExecuteTransaction(function, callback);
     }
@@ -82,9 +78,9 @@ public class TableFactory extends Contract {
                 new Function(
                         FUNC_CREATETABLE,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param0),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param1),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param2)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(param0),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(param1),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(param2)),
                         Collections.<TypeReference<?>>emptyList());
         return createSignedTransaction(function);
     }
@@ -123,9 +119,10 @@ public class TableFactory extends Contract {
                 new Function(
                         FUNC_OPENTABLE,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param0)),
-                        Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return executeCallWithSingleValueReturn(function, String.class);
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(param0)),
+                        Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {
+                        }));
+        return this.executeCallWithSingleValueReturn(function, String.class);
     }
 
     public static TableFactory load(

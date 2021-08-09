@@ -5,16 +5,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.fisco.bcos.sdk.abi.FunctionReturnDecoder;
-import org.fisco.bcos.sdk.abi.TypeReference;
-import org.fisco.bcos.sdk.abi.datatypes.Address;
-import org.fisco.bcos.sdk.abi.datatypes.DynamicArray;
-import org.fisco.bcos.sdk.abi.datatypes.Function;
-import org.fisco.bcos.sdk.abi.datatypes.Type;
-import org.fisco.bcos.sdk.abi.datatypes.Utf8String;
-import org.fisco.bcos.sdk.abi.datatypes.generated.Int256;
-import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple1;
-import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple2;
 import org.fisco.bcos.sdk.client.Client;
+import org.fisco.bcos.sdk.codec.datatypes.*;
+import org.fisco.bcos.sdk.codec.datatypes.generated.Int256;
+import org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated.Tuple1;
+import org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated.Tuple2;
 import org.fisco.bcos.sdk.contract.Contract;
 import org.fisco.bcos.sdk.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.crypto.keypair.CryptoKeyPair;
@@ -66,7 +61,7 @@ public class ContractLifeCyclePrecompiled extends Contract {
         final Function function =
                 new Function(
                         FUNC_GETSTATUS,
-                        Arrays.<Type>asList(new org.fisco.bcos.sdk.abi.datatypes.Address(addr)),
+                        Arrays.<Type>asList(new org.fisco.bcos.sdk.codec.datatypes.Address(addr)),
                         Arrays.<TypeReference<?>>asList(
                                 new TypeReference<Int256>() {},
                                 new TypeReference<Utf8String>() {}));
@@ -80,8 +75,8 @@ public class ContractLifeCyclePrecompiled extends Contract {
                 new Function(
                         FUNC_REVOKEMANAGER,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(contractAddr),
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(userAddr)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(contractAddr),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(userAddr)),
                         Collections.<TypeReference<?>>emptyList());
         return executeTransaction(function);
     }
@@ -91,8 +86,8 @@ public class ContractLifeCyclePrecompiled extends Contract {
                 new Function(
                         FUNC_REVOKEMANAGER,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(contractAddr),
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(userAddr)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(contractAddr),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(userAddr)),
                         Collections.<TypeReference<?>>emptyList());
         asyncExecuteTransaction(function, callback);
     }
@@ -102,8 +97,8 @@ public class ContractLifeCyclePrecompiled extends Contract {
                 new Function(
                         FUNC_REVOKEMANAGER,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(contractAddr),
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(userAddr)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(contractAddr),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(userAddr)),
                         Collections.<TypeReference<?>>emptyList());
         return createSignedTransaction(function);
     }
@@ -136,7 +131,7 @@ public class ContractLifeCyclePrecompiled extends Contract {
         final Function function =
                 new Function(
                         FUNC_UNFREEZE,
-                        Arrays.<Type>asList(new org.fisco.bcos.sdk.abi.datatypes.Address(addr)),
+                        Arrays.<Type>asList(new org.fisco.bcos.sdk.codec.datatypes.Address(addr)),
                         Collections.<TypeReference<?>>emptyList());
         return executeTransaction(function);
     }
@@ -145,7 +140,7 @@ public class ContractLifeCyclePrecompiled extends Contract {
         final Function function =
                 new Function(
                         FUNC_UNFREEZE,
-                        Arrays.<Type>asList(new org.fisco.bcos.sdk.abi.datatypes.Address(addr)),
+                        Arrays.<Type>asList(new org.fisco.bcos.sdk.codec.datatypes.Address(addr)),
                         Collections.<TypeReference<?>>emptyList());
         asyncExecuteTransaction(function, callback);
     }
@@ -154,7 +149,7 @@ public class ContractLifeCyclePrecompiled extends Contract {
         final Function function =
                 new Function(
                         FUNC_UNFREEZE,
-                        Arrays.<Type>asList(new org.fisco.bcos.sdk.abi.datatypes.Address(addr)),
+                        Arrays.<Type>asList(new org.fisco.bcos.sdk.codec.datatypes.Address(addr)),
                         Collections.<TypeReference<?>>emptyList());
         return createSignedTransaction(function);
     }
@@ -185,7 +180,7 @@ public class ContractLifeCyclePrecompiled extends Contract {
         final Function function =
                 new Function(
                         FUNC_FREEZE,
-                        Arrays.<Type>asList(new org.fisco.bcos.sdk.abi.datatypes.Address(addr)),
+                        Arrays.<Type>asList(new org.fisco.bcos.sdk.codec.datatypes.Address(addr)),
                         Collections.<TypeReference<?>>emptyList());
         return executeTransaction(function);
     }
@@ -194,7 +189,7 @@ public class ContractLifeCyclePrecompiled extends Contract {
         final Function function =
                 new Function(
                         FUNC_FREEZE,
-                        Arrays.<Type>asList(new org.fisco.bcos.sdk.abi.datatypes.Address(addr)),
+                        Arrays.<Type>asList(new org.fisco.bcos.sdk.codec.datatypes.Address(addr)),
                         Collections.<TypeReference<?>>emptyList());
         asyncExecuteTransaction(function, callback);
     }
@@ -203,7 +198,7 @@ public class ContractLifeCyclePrecompiled extends Contract {
         final Function function =
                 new Function(
                         FUNC_FREEZE,
-                        Arrays.<Type>asList(new org.fisco.bcos.sdk.abi.datatypes.Address(addr)),
+                        Arrays.<Type>asList(new org.fisco.bcos.sdk.codec.datatypes.Address(addr)),
                         Collections.<TypeReference<?>>emptyList());
         return createSignedTransaction(function);
     }
@@ -235,8 +230,8 @@ public class ContractLifeCyclePrecompiled extends Contract {
                 new Function(
                         FUNC_GRANTMANAGER,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(contractAddr),
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(userAddr)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(contractAddr),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(userAddr)),
                         Collections.<TypeReference<?>>emptyList());
         return executeTransaction(function);
     }
@@ -246,8 +241,8 @@ public class ContractLifeCyclePrecompiled extends Contract {
                 new Function(
                         FUNC_GRANTMANAGER,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(contractAddr),
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(userAddr)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(contractAddr),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(userAddr)),
                         Collections.<TypeReference<?>>emptyList());
         asyncExecuteTransaction(function, callback);
     }
@@ -257,8 +252,8 @@ public class ContractLifeCyclePrecompiled extends Contract {
                 new Function(
                         FUNC_GRANTMANAGER,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(contractAddr),
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(userAddr)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(contractAddr),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(userAddr)),
                         Collections.<TypeReference<?>>emptyList());
         return createSignedTransaction(function);
     }
@@ -291,7 +286,7 @@ public class ContractLifeCyclePrecompiled extends Contract {
         final Function function =
                 new Function(
                         FUNC_LISTMANAGER,
-                        Arrays.<Type>asList(new org.fisco.bcos.sdk.abi.datatypes.Address(addr)),
+                        Arrays.<Type>asList(new org.fisco.bcos.sdk.codec.datatypes.Address(addr)),
                         Arrays.<TypeReference<?>>asList(
                                 new TypeReference<Int256>() {},
                                 new TypeReference<DynamicArray<Address>>() {}));

@@ -1,15 +1,19 @@
 package org.fisco.bcos.sdk.abi;
 
+
+import org.fisco.bcos.sdk.codec.ABITypeEncoder;
+import org.fisco.bcos.sdk.codec.Utils;
+import org.fisco.bcos.sdk.codec.datatypes.Function;
+import org.fisco.bcos.sdk.codec.datatypes.Type;
+import org.fisco.bcos.sdk.codec.datatypes.Uint;
+import org.fisco.bcos.sdk.crypto.CryptoSuite;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.fisco.bcos.sdk.abi.datatypes.Function;
-import org.fisco.bcos.sdk.abi.datatypes.Type;
-import org.fisco.bcos.sdk.abi.datatypes.Uint;
-import org.fisco.bcos.sdk.crypto.CryptoSuite;
 
 /**
  * Ethereum Contract Application Binary Interface (ABI) encoding for functions. Further details are
@@ -18,6 +22,7 @@ import org.fisco.bcos.sdk.crypto.CryptoSuite;
 public class FunctionEncoder {
 
     private CryptoSuite cryptoSuite;
+    private final ABITypeEncoder abiTypeEncoder = new ABITypeEncoder();
 
     public FunctionEncoder(CryptoSuite cryptoSuite) {
         this.cryptoSuite = cryptoSuite;
@@ -32,11 +37,11 @@ public class FunctionEncoder {
         return encodeParameters(parameters, methodId);
     }
 
-    public static byte[] encodeConstructor(List<Type> parameters) {
+    public byte[] encodeConstructor(List<Type> parameters) {
         return encodeParameters(parameters, null);
     }
 
-    public static byte[] encodeParameters(List<Type> parameters, byte[] methodID) {
+    public byte[] encodeParameters(List<Type> parameters, byte[] methodID) {
         // TODO: support wasm and scale codec
         int dynamicDataOffset = Utils.getLength(parameters) * Type.MAX_BYTE_LENGTH;
         ByteArrayOutputStream result = new ByteArrayOutputStream();
@@ -46,12 +51,11 @@ public class FunctionEncoder {
             }
             ByteArrayOutputStream dynamicData = new ByteArrayOutputStream();
             for (Type parameter : parameters) {
-                byte[] encodedValue = TypeEncoder.encode(parameter);
+                byte[] encodedValue = this.abiTypeEncoder.encode(parameter);
 
                 if (parameter.dynamicType()) {
                     byte[] encodedDataOffset =
-                            TypeEncoder.encodeNumeric(
-                                    new Uint(BigInteger.valueOf(dynamicDataOffset)));
+                            this.abiTypeEncoder.encodeNumeric(new Uint(BigInteger.valueOf(dynamicDataOffset)));
                     result.write(encodedDataOffset);
                     dynamicData.write(encodedValue);
                     dynamicDataOffset += (encodedValue.length >> 1);
@@ -84,12 +88,16 @@ public class FunctionEncoder {
         return Arrays.copyOfRange(hash, 0, 4);
     }
 
-    /** @return the cryptoSuite */
+    /**
+     * @return the cryptoSuite
+     */
     public CryptoSuite getCryptoSuite() {
         return this.cryptoSuite;
     }
 
-    /** @param cryptoSuite the cryptoSuite to set */
+    /**
+     * @param cryptoSuite the cryptoSuite to set
+     */
     public void setCryptoSuite(CryptoSuite cryptoSuite) {
         this.cryptoSuite = cryptoSuite;
     }

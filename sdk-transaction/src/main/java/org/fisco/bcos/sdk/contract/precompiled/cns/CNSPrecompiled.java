@@ -5,15 +5,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.fisco.bcos.sdk.abi.FunctionReturnDecoder;
-import org.fisco.bcos.sdk.abi.TypeReference;
-import org.fisco.bcos.sdk.abi.datatypes.Address;
-import org.fisco.bcos.sdk.abi.datatypes.Function;
-import org.fisco.bcos.sdk.abi.datatypes.Type;
-import org.fisco.bcos.sdk.abi.datatypes.Utf8String;
-import org.fisco.bcos.sdk.abi.datatypes.generated.Uint256;
-import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple1;
-import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple4;
 import org.fisco.bcos.sdk.client.Client;
+import org.fisco.bcos.sdk.codec.datatypes.*;
+import org.fisco.bcos.sdk.codec.datatypes.generated.Uint256;
+import org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated.Tuple1;
+import org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated.Tuple4;
 import org.fisco.bcos.sdk.contract.Contract;
 import org.fisco.bcos.sdk.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.crypto.keypair.CryptoKeyPair;
@@ -60,9 +56,10 @@ public class CNSPrecompiled extends Contract {
         final Function function =
                 new Function(
                         FUNC_SELECTBYNAME,
-                        Arrays.<Type>asList(new org.fisco.bcos.sdk.abi.datatypes.Utf8String(name)),
-                        Arrays.<TypeReference<?>>asList(new TypeReference<Utf8String>() {}));
-        return executeCallWithSingleValueReturn(function, String.class);
+                        Arrays.<Type>asList(new org.fisco.bcos.sdk.codec.datatypes.Utf8String(name)),
+                        Arrays.<TypeReference<?>>asList(new TypeReference<Utf8String>() {
+                        }));
+        return this.executeCallWithSingleValueReturn(function, String.class);
     }
 
     public String selectByNameAndVersion(String name, String version) throws ContractException {
@@ -70,10 +67,11 @@ public class CNSPrecompiled extends Contract {
                 new Function(
                         FUNC_SELECTBYNAMEANDVERSION,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(name),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(version)),
-                        Arrays.<TypeReference<?>>asList(new TypeReference<Utf8String>() {}));
-        return executeCallWithSingleValueReturn(function, String.class);
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(name),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(version)),
+                        Arrays.<TypeReference<?>>asList(new TypeReference<Utf8String>() {
+                        }));
+        return this.executeCallWithSingleValueReturn(function, String.class);
     }
 
     public TransactionReceipt insert(String name, String version, String addr, String abi) {
@@ -81,10 +79,10 @@ public class CNSPrecompiled extends Contract {
                 new Function(
                         FUNC_INSERT,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(name),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(version),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(addr),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(abi)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(name),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(version),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(addr),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(abi)),
                         Collections.<TypeReference<?>>emptyList());
         return executeTransaction(function);
     }
@@ -95,10 +93,10 @@ public class CNSPrecompiled extends Contract {
                 new Function(
                         FUNC_INSERT,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(name),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(version),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(addr),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(abi)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(name),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(version),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(addr),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(abi)),
                         Collections.<TypeReference<?>>emptyList());
         asyncExecuteTransaction(function, callback);
     }
@@ -109,10 +107,10 @@ public class CNSPrecompiled extends Contract {
                 new Function(
                         FUNC_INSERT,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(name),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(version),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(addr),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(abi)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(name),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(version),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(addr),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(abi)),
                         Collections.<TypeReference<?>>emptyList());
         return createSignedTransaction(function);
     }
@@ -153,10 +151,11 @@ public class CNSPrecompiled extends Contract {
                 new Function(
                         FUNC_GETCONTRACTADDRESS,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(name),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(version)),
-                        Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return executeCallWithSingleValueReturn(function, String.class);
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(name),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(version)),
+                        Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {
+                        }));
+        return this.executeCallWithSingleValueReturn(function, String.class);
     }
 
     public static CNSPrecompiled load(

@@ -6,10 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import org.fisco.bcos.sdk.abi.FunctionReturnDecoder;
 import org.fisco.bcos.sdk.abi.TypeReference;
-import org.fisco.bcos.sdk.abi.datatypes.*;
-import org.fisco.bcos.sdk.abi.datatypes.generated.Bytes32;
-import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple2;
-import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple8;
+import org.fisco.bcos.sdk.codec.datatypes.*;
+import org.fisco.bcos.sdk.codec.datatypes.generated.Bytes32;
+import org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated.Tuple2;
+import org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated.Tuple8;
 import org.fisco.bcos.sdk.client.Client;
 import org.fisco.bcos.sdk.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.crypto.keypair.CryptoKeyPair;
@@ -67,14 +67,14 @@ public class SM2EvidenceVerify extends Contract {
                 new Function(
                         FUNC_INSERTEVIDENCE,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(evi),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(info),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(id),
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(signAddr),
-                                new org.fisco.bcos.sdk.abi.datatypes.generated.Bytes32(message),
-                                new org.fisco.bcos.sdk.abi.datatypes.DynamicBytes(pubKey),
-                                new org.fisco.bcos.sdk.abi.datatypes.generated.Bytes32(r),
-                                new org.fisco.bcos.sdk.abi.datatypes.generated.Bytes32(s)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(evi),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(info),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(id),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(signAddr),
+                                new org.fisco.bcos.sdk.codec.datatypes.generated.Bytes32(message),
+                                new org.fisco.bcos.sdk.codec.datatypes.DynamicBytes(pubKey),
+                                new org.fisco.bcos.sdk.codec.datatypes.generated.Bytes32(r),
+                                new org.fisco.bcos.sdk.codec.datatypes.generated.Bytes32(s)),
                         Collections.<TypeReference<?>>emptyList());
         return this.executeTransaction(function);
     }
@@ -93,14 +93,14 @@ public class SM2EvidenceVerify extends Contract {
                 new Function(
                         FUNC_INSERTEVIDENCE,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(evi),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(info),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(id),
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(signAddr),
-                                new org.fisco.bcos.sdk.abi.datatypes.generated.Bytes32(message),
-                                new org.fisco.bcos.sdk.abi.datatypes.DynamicBytes(pubKey),
-                                new org.fisco.bcos.sdk.abi.datatypes.generated.Bytes32(r),
-                                new org.fisco.bcos.sdk.abi.datatypes.generated.Bytes32(s)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(evi),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(info),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(id),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(signAddr),
+                                new org.fisco.bcos.sdk.codec.datatypes.generated.Bytes32(message),
+                                new org.fisco.bcos.sdk.codec.datatypes.DynamicBytes(pubKey),
+                                new org.fisco.bcos.sdk.codec.datatypes.generated.Bytes32(r),
+                                new org.fisco.bcos.sdk.codec.datatypes.generated.Bytes32(s)),
                         Collections.<TypeReference<?>>emptyList());
         this.asyncExecuteTransaction(function, callback);
     }
@@ -118,14 +118,14 @@ public class SM2EvidenceVerify extends Contract {
                 new Function(
                         FUNC_INSERTEVIDENCE,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(evi),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(info),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(id),
-                                new org.fisco.bcos.sdk.abi.datatypes.Address(signAddr),
-                                new org.fisco.bcos.sdk.abi.datatypes.generated.Bytes32(message),
-                                new org.fisco.bcos.sdk.abi.datatypes.DynamicBytes(pubKey),
-                                new org.fisco.bcos.sdk.abi.datatypes.generated.Bytes32(r),
-                                new org.fisco.bcos.sdk.abi.datatypes.generated.Bytes32(s)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(evi),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(info),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(id),
+                                new org.fisco.bcos.sdk.codec.datatypes.Address(signAddr),
+                                new org.fisco.bcos.sdk.codec.datatypes.generated.Bytes32(message),
+                                new org.fisco.bcos.sdk.codec.datatypes.DynamicBytes(pubKey),
+                                new org.fisco.bcos.sdk.codec.datatypes.generated.Bytes32(r),
+                                new org.fisco.bcos.sdk.codec.datatypes.generated.Bytes32(s)),
                         Collections.<TypeReference<?>>emptyList());
         return this.createSignedTransaction(function);
     }

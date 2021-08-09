@@ -1,11 +1,14 @@
 package org.fisco.bcos.sdk.abi;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import org.fisco.bcos.sdk.abi.datatypes.Event;
-import org.fisco.bcos.sdk.abi.datatypes.Type;
+import org.fisco.bcos.sdk.codec.Utils;
+import org.fisco.bcos.sdk.codec.datatypes.Event;
+import org.fisco.bcos.sdk.codec.datatypes.Type;
+import org.fisco.bcos.sdk.codec.datatypes.TypeReference;
 import org.fisco.bcos.sdk.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.utils.Numeric;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Ethereum filter encoding. Further limited details are available <a
@@ -21,9 +24,9 @@ public class EventEncoder {
 
     public String encode(Event event) {
 
-        String methodSignature = buildMethodSignature(event.getName(), event.getParameters());
+        String methodSignature = this.buildMethodSignature(event.getName(), event.getParameters());
 
-        return buildEventSignature(methodSignature);
+        return this.buildEventSignature(methodSignature);
     }
 
     private <T extends Type> String buildMethodSignature(
@@ -41,16 +44,20 @@ public class EventEncoder {
 
     public String buildEventSignature(String methodSignature) {
         byte[] input = methodSignature.getBytes();
-        byte[] hash = cryptoSuite.hash(input);
+        byte[] hash = this.cryptoSuite.hash(input);
         return Numeric.toHexString(hash);
     }
 
-    /** @return the cryptoSuite */
+    /**
+     * @return the cryptoSuite
+     */
     public CryptoSuite getCryptoSuite() {
-        return cryptoSuite;
+        return this.cryptoSuite;
     }
 
-    /** @param cryptoSuite the cryptoSuite to set */
+    /**
+     * @param cryptoSuite the cryptoSuite to set
+     */
     public void setCryptoSuite(CryptoSuite cryptoSuite) {
         this.cryptoSuite = cryptoSuite;
     }

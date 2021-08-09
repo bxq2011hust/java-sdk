@@ -1,8 +1,8 @@
 package org.fisco.bcos.sdk.abi.tools;
 
 import java.math.BigInteger;
-import org.fisco.bcos.sdk.abi.TypeEncoder;
-import org.fisco.bcos.sdk.abi.datatypes.Bytes;
+import org.fisco.bcos.sdk.codec.ABITypeEncoder;
+import org.fisco.bcos.sdk.codec.datatypes.Bytes;
 import org.fisco.bcos.sdk.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.utils.AddressUtils;
 import org.fisco.bcos.sdk.utils.Numeric;
@@ -11,6 +11,7 @@ public class TopicTools {
 
     public static final int MAX_NUM_TOPIC_EVENT_LOG = 4;
     public static final String LATEST = "latest";
+    private final ABITypeEncoder abiTypeEncoder = new ABITypeEncoder();
 
     private CryptoSuite cryptoSuite;
 
@@ -54,6 +55,6 @@ public class TopicTools {
             throw new IllegalArgumentException("byteN can't be more than 32 byte");
         }
         Bytes bs = new Bytes(b.length, b);
-        return TypeEncoder.encode(bs);
+        return this.abiTypeEncoder.encode(bs);
     }
 }

@@ -25,11 +25,10 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Modifier;
 import org.fisco.bcos.sdk.abi.FunctionEncoder;
 import org.fisco.bcos.sdk.abi.FunctionReturnDecoder;
-import org.fisco.bcos.sdk.abi.TypeReference;
-import org.fisco.bcos.sdk.abi.datatypes.*;
-import org.fisco.bcos.sdk.abi.datatypes.generated.AbiTypes;
 import org.fisco.bcos.sdk.abi.wrapper.ABIDefinition;
 import org.fisco.bcos.sdk.client.Client;
+import org.fisco.bcos.sdk.codec.datatypes.*;
+import org.fisco.bcos.sdk.codec.datatypes.generated.AbiTypes;
 import org.fisco.bcos.sdk.codegen.exceptions.CodeGenException;
 import org.fisco.bcos.sdk.contract.Contract;
 import org.fisco.bcos.sdk.crypto.CryptoSuite;
@@ -494,14 +493,14 @@ public class SolidityContractWrapper {
 
                 if (innerType.isDynamicList()) { // dynamic array
                     return parameterSpec.name
-                            + ".isEmpty()?org.fisco.bcos.sdk.abi.datatypes.DynamicArray.empty"
+                            + ".isEmpty()?org.fisco.bcos.sdk.codec.datatypes.DynamicArray.empty"
                             + "(\""
                             + type
                             + "\"):"
                             + "new "
                             + parameterSpecType
                             + "(\n"
-                            + "        org.fisco.bcos.sdk.abi.Utils.typeMap("
+                            + "        org.fisco.bcos.sdk.codec.Utils.typeMap("
                             + parameterSpec.name
                             + ", "
                             + typeMapInput
@@ -510,7 +509,7 @@ public class SolidityContractWrapper {
                     return "new "
                             + parameterSpecType
                             + "(\n"
-                            + "        org.fisco.bcos.sdk.abi.Utils.typeMap("
+                            + "        org.fisco.bcos.sdk.codec.Utils.typeMap("
                             + parameterSpec.name
                             + ", "
                             + typeMapInput
@@ -734,7 +733,7 @@ public class SolidityContractWrapper {
         ParameterizedTypeName parameterizedTupleType =
                 ParameterizedTypeName.get(
                         ClassName.get(
-                                "org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated",
+                                "org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated",
                                 "Tuple" + returnTypes.size()),
                         returnTypes.toArray(new TypeName[returnTypes.size()]));
 
@@ -777,7 +776,7 @@ public class SolidityContractWrapper {
         ParameterizedTypeName parameterizedTupleType =
                 ParameterizedTypeName.get(
                         ClassName.get(
-                                "org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated",
+                                "org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated",
                                 "Tuple" + returnTypes.size()),
                         returnTypes.toArray(new TypeName[returnTypes.size()]));
 
@@ -864,7 +863,7 @@ public class SolidityContractWrapper {
             ParameterizedTypeName parameterizedTupleType =
                     ParameterizedTypeName.get(
                             ClassName.get(
-                                    "org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated",
+                                    "org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated",
                                     "Tuple" + returnTypes.size()),
                             returnTypes.toArray(new TypeName[returnTypes.size()]));
 
@@ -1194,7 +1193,7 @@ public class SolidityContractWrapper {
 
     private static Class<?> getStaticArrayTypeReferenceClass(String type) {
         try {
-            return Class.forName("org.fisco.bcos.sdk.abi.datatypes.generated.StaticArray" + type);
+            return Class.forName("org.fisco.bcos.sdk.codec.datatypes.generated.StaticArray" + type);
         } catch (ClassNotFoundException e) {
             // Unfortunately we can't encode it's length as a type if it's > 32.
             return StaticArray.class;

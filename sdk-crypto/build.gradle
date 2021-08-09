@@ -3,7 +3,7 @@ plugins {
     id 'java'
 }
 dependencies {
-    api project(':sdk-core')
+    implementation project(':sdk-core')
     api("org.bouncycastle:bcprov-jdk15on:${bcprovJDK15onVersion}")
     api("com.webank:key-mini-toolkit:${keyMiniToolkit}")
 }

@@ -4,8 +4,7 @@ plugins {
     id 'java-library'
 }
 dependencies {
-    implementation project(':sdk-crypto')
-    implementation project(':sdk-core')
+    api project(':sdk-codec')
     implementation("org.apache.commons:commons-lang3:${commonsLang3Version}")
     api("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
 }

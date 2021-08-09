@@ -5,14 +5,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.fisco.bcos.sdk.abi.FunctionReturnDecoder;
-import org.fisco.bcos.sdk.abi.TypeReference;
-import org.fisco.bcos.sdk.abi.datatypes.Function;
-import org.fisco.bcos.sdk.abi.datatypes.Type;
-import org.fisco.bcos.sdk.abi.datatypes.Utf8String;
-import org.fisco.bcos.sdk.abi.datatypes.generated.Int256;
-import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple1;
-import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple2;
 import org.fisco.bcos.sdk.client.Client;
+import org.fisco.bcos.sdk.codec.datatypes.Function;
+import org.fisco.bcos.sdk.codec.datatypes.Type;
+import org.fisco.bcos.sdk.codec.datatypes.TypeReference;
+import org.fisco.bcos.sdk.codec.datatypes.Utf8String;
+import org.fisco.bcos.sdk.codec.datatypes.generated.Int256;
+import org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated.Tuple1;
+import org.fisco.bcos.sdk.codec.datatypes.generated.tuples.generated.Tuple2;
 import org.fisco.bcos.sdk.contract.Contract;
 import org.fisco.bcos.sdk.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.crypto.keypair.CryptoKeyPair;
@@ -55,8 +55,8 @@ public class SystemConfigPrecompiled extends Contract {
                 new Function(
                         FUNC_SETVALUEBYKEY,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(key),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(value)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(key),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(value)),
                         Collections.<TypeReference<?>>emptyList());
         return executeTransaction(function);
     }
@@ -66,8 +66,8 @@ public class SystemConfigPrecompiled extends Contract {
                 new Function(
                         FUNC_SETVALUEBYKEY,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(key),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(value)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(key),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(value)),
                         Collections.<TypeReference<?>>emptyList());
         asyncExecuteTransaction(function, callback);
     }
@@ -77,8 +77,8 @@ public class SystemConfigPrecompiled extends Contract {
                 new Function(
                         FUNC_SETVALUEBYKEY,
                         Arrays.<Type>asList(
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(key),
-                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(value)),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(key),
+                                new org.fisco.bcos.sdk.codec.datatypes.Utf8String(value)),
                         Collections.<TypeReference<?>>emptyList());
         return createSignedTransaction(function);
     }
